@@ -26,16 +26,23 @@ module ActsAsBookable
       #
       def interval_in_schedule?(schedule, interval_start, interval_end)
         # Check if interval_start and interval_end falls within any occurrence
+        puts 'a'
         return false if(!time_in_schedule?(schedule,interval_start) || !time_in_schedule?(schedule,interval_end))
+        puts 'b'
 
         # Check if both interval_start and interval_end falls within the SAME occurrence
         between = schedule.occurrences_between(interval_start, interval_end, true)
+        puts 'c'
         contains = false
         between.each do |oc|
+          puts 'd'
           oc_end = oc + schedule.duration
+          puts 'e'
           contains = true if (time_in_interval?(interval_start,oc,oc_end) && time_in_interval?(interval_end,oc,oc_end))
+          puts 'f'
           break if contains
         end
+        puts 'g'
 
         contains
       end
