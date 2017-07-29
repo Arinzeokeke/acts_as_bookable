@@ -198,13 +198,17 @@ module ActsAsBookable::Bookable
             end
           # If it's not bookable across recurrences, check if the whole interval is included in an occurrence
           else
+            puts 77
             # Check the whole interval
             if !(ActsAsBookable::TimeUtils.interval_in_schedule?(self.schedule, opts[:time_start], opts[:time_end]))
+              puts 88
               time_check_ok = false
             end
           end
+          puts 99
           # If something went wrong
           unless time_check_ok
+            puts 1111
             raise ActsAsBookable::AvailabilityError.new ActsAsBookable::T.er('.availability.unavailable_interval', model: self.class.to_s, time_start: opts[:time_start], time_end: opts[:time_end])
           end
         end
@@ -213,6 +217,7 @@ module ActsAsBookable::Bookable
             raise ActsAsBookable::AvailabilityError.new ActsAsBookable::T.er('.availability.unavailable_time', model: self.class.to_s, time: opts[:time])
           end
         end
+        puts 2222
         
         puts self.booking_opts
         puts opts
