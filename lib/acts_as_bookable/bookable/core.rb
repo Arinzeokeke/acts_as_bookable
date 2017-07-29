@@ -163,10 +163,14 @@ module ActsAsBookable::Bookable
       #   @room.check_availability!(from: Date.today, to: Date.tomorrow, amount: 2)
       def check_availability!(opts)
         # validates options
+        puts 11
         self.validate_booking_options!(opts)
+        puts 22
 
         # Capacity check (done first because it doesn't require additional queries)
+        puts 33
         if self.booking_opts[:capacity_type] != :none
+          puts 44
           # Amount > capacity
           if opts[:amount] > self.capacity
             raise ActsAsBookable::AvailabilityError.new ActsAsBookable::T.er('.availability.amount_gt_capacity', model: self.class.to_s)
@@ -176,8 +180,12 @@ module ActsAsBookable::Bookable
         ##
         # Time check
         #
+        puts 55
+        puts self.booking_opts
+        puts opts
         if self.booking_opts[:time_type] == :range
           time_check_ok = true
+          puts 66
           # If it's bookable across recurrences, just check start time and end time
           if self.booking_opts[:bookable_across_occurrences]
             # Check start time
@@ -205,6 +213,9 @@ module ActsAsBookable::Bookable
             raise ActsAsBookable::AvailabilityError.new ActsAsBookable::T.er('.availability.unavailable_time', model: self.class.to_s, time: opts[:time])
           end
         end
+        
+        puts self.booking_opts
+        puts opts
 
         ##
         # Real capacity check (calculated with overlapped bookings)
@@ -238,6 +249,9 @@ module ActsAsBookable::Bookable
             end
           end
         end
+        
+        puts self.booking_opts
+        puts opts
         true
       end
 
