@@ -41,16 +41,24 @@ module ActsAsBookable
       #   @user.book!(@room)
       def book!(bookable, opts={})
         # check availability
+        puts opts
+        puts 1
         bookable.check_availability!(opts) if bookable.class.bookable?
+        puts 2
 
         # create the new booking
         booking_params = opts.merge({booker: self, bookable: bookable})
+        puts 3
         booking = ActsAsBookable::Booking.create!(booking_params)
+        puts 4
 
         # reload the bookable to make changes available
         bookable.reload
+        puts 5
         self.reload
+        puts 6
         booking
+        puts 7
       end
 
       def booker?
