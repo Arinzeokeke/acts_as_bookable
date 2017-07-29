@@ -31,7 +31,7 @@ module ActsAsBookable
         puts 'b'
 
         # Check if both interval_start and interval_end falls within the SAME occurrence
-        between = schedule.occurrences_between(interval_start, interval_end, true)
+        between = schedule.occurrences_between(interval_start, interval_end)
         puts 'c'
         contains = false
         between.each do |oc|
